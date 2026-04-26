@@ -23,7 +23,7 @@ body {
   justify-content: center;
   align-items: center;
   opacity: 0;
-  transition: 1.2s ease;
+  transition: 5s ease;
   filter: blur(8px);
 }
 
@@ -104,16 +104,40 @@ body {
 const slidesData = [
   {img:1, text:"Hey… ❤️<br><br>Please don’t skip this…"},
   {img:2, typing:true},
-  {img:3, text:"I Don’t Want To Lose This<br><br>Not you… not us…"},
-  {img:4, text:"You Matter To Me<br><br>More than my ego."}
+  {img:3, text:"I don’t want to lose this…<br><br>Not you… not us…"},
+  {img:4, text:"You matter to me…<br><br>More than my ego."}
 ];
 
-// Images 5–21
+/* 👉 ADD APOLOGY TEXT FOR ALL OTHER PHOTOS */
+const extraTexts = [
+  "I miss us being normal…",
+  "I know I messed up…",
+  "You didn’t deserve that…",
+  "I wish I handled things better…",
+  "You mean a lot to me…",
+  "I hate seeing you upset…",
+  "I’m trying to fix this…",
+  "I really care about you…",
+  "I don’t want distance between us…",
+  "I’m learning from this…",
+  "I’ll do better… I promise…",
+  "I just want you back smiling…",
+  "I know I hurt you…",
+  "And I’m really sorry…",
+  "Please don’t stay upset forever…",
+  "You’re too important to lose…",
+  "I’m not giving up on us…"
+];
+
+/* Images 5–21 with text */
 for(let i=5;i<=21;i++){
-  slidesData.push({img:i, text:""});
+  slidesData.push({
+    img:i,
+    text: extraTexts[(i-5) % extraTexts.length]
+  });
 }
 
-// Final slide
+/* Final slide */
 slidesData.push({img:22, final:true});
 
 let current = 0;
@@ -141,7 +165,10 @@ slidesData.forEach((slide,i)=>{
     `;
   }
   else{
-    overlay.innerHTML = `<h1>${slide.text}</h1><button class="btn" onclick="next()">Next</button>`;
+    overlay.innerHTML = `
+      <h1>${slide.text}</h1>
+      <button class="btn" onclick="next()">Next</button>
+    `;
   }
 
   div.appendChild(overlay);
@@ -150,10 +177,9 @@ slidesData.forEach((slide,i)=>{
 
 const slides = document.querySelectorAll(".slide");
 
-/* 👉 FIXED NEXT BUTTON */
+/* Next */
 function next(){
-  startMusic(); // start music on interaction
-
+  startMusic();
   if(current < slides.length - 1){
     slides[current].classList.remove("active");
     current++;
@@ -161,14 +187,14 @@ function next(){
   }
 }
 
-/* 👉 AUTO SLIDE */
+/* 👉 UPDATED INTERVAL = 10 sec */
 setInterval(()=>{
   if(current < slides.length-1){
     next();
   }
-}, 5000);
+}, 10000);
 
-/* 👉 MOBILE MUSIC FIX */
+/* Music fix */
 function startMusic(){
   if(!musicStarted){
     const music = document.getElementById("bgMusic");
@@ -178,7 +204,7 @@ function startMusic(){
 }
 
 /* Typing */
-const text = "I know you’re upset...\n\nAnd honestly, you’re right.\n\nI shouldn’t have to make you cry and hurt you.\n\nI hate that I made you feel this way.\n\nYou mean everything to me.\n\nI’m really sorry.";
+const text = "I know you’re upset...\n\nAnd honestly, you’re right.\n\nI shouldn’t have to make you cry and should not hurt you.\n\nI hate that I made you feel this way.\n\nYou mean everything to me.\n\nI’m really sorry.";
 let i=0;
 
 function typeWriter(){
