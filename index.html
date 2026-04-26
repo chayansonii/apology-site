@@ -27,9 +27,31 @@ body {
   filter: blur(8px);
 }
 
+/* ACTIVE SLIDE */
 .slide.active {
   opacity: 1;
   filter: blur(0);
+}
+
+/* 👉 FIX FOR CLICK ISSUE */
+.slide {
+  pointer-events: none;
+}
+.slide.active {
+  pointer-events: auto;
+}
+
+.btn {
+  z-index: 10;
+  position: relative;
+  margin: 10px;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 25px;
+  background: linear-gradient(45deg, #ff6f91, #ff9671);
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 /* Overlay */
@@ -41,26 +63,10 @@ body {
   text-align: center;
 }
 
-/* Text */
-h1 { font-size: 42px; }
-p { font-size: 20px; }
-
 /* Typing */
 #typing {
   font-size: 22px;
   min-height: 120px;
-}
-
-/* Buttons */
-.btn {
-  margin: 10px;
-  padding: 12px 25px;
-  border: none;
-  border-radius: 25px;
-  background: linear-gradient(45deg, #ff6f91, #ff9671);
-  color: white;
-  cursor: pointer;
-  font-size: 16px;
 }
 
 /* Response */
@@ -89,10 +95,8 @@ p { font-size: 20px; }
 
 <body>
 
-<!-- Slides will be generated automatically -->
-
-<!-- Music -->
-<audio autoplay loop>
+<!-- 🎵 Music -->
+<audio id="bgMusic" loop>
   <source src="song.mp3" type="audio/mpeg">
 </audio>
 
@@ -104,15 +108,16 @@ const slidesData = [
   {img:4, text:"You Matter To Me<br><br>More than my ego."}
 ];
 
-// Add remaining images (5 to 21)
+// Images 5–21
 for(let i=5;i<=21;i++){
   slidesData.push({img:i, text:""});
 }
 
-// Last slide (22)
+// Final slide
 slidesData.push({img:22, final:true});
 
 let current = 0;
+let musicStarted = false;
 
 /* Create Slides */
 slidesData.forEach((slide,i)=>{
@@ -145,23 +150,35 @@ slidesData.forEach((slide,i)=>{
 
 const slides = document.querySelectorAll(".slide");
 
-/* Next slide */
+/* 👉 FIXED NEXT BUTTON */
 function next(){
-  slides[current].classList.remove("active");
-  current++;
-  if(current>=slides.length) current=slides.length-1;
-  slides[current].classList.add("active");
+  startMusic(); // start music on interaction
+
+  if(current < slides.length - 1){
+    slides[current].classList.remove("active");
+    current++;
+    slides[current].classList.add("active");
+  }
 }
 
-/* Auto slideshow */
+/* 👉 AUTO SLIDE */
 setInterval(()=>{
   if(current < slides.length-1){
     next();
   }
 }, 5000);
 
+/* 👉 MOBILE MUSIC FIX */
+function startMusic(){
+  if(!musicStarted){
+    const music = document.getElementById("bgMusic");
+    music.play().catch(()=>{});
+    musicStarted = true;
+  }
+}
+
 /* Typing */
-const text = "I know you’re upset...\n\nAnd honestly, you’re right.\n\nI shouldn’t have made you cry and shouldn;t hurt you.\n\nI hate that I made you feel this way.\n\nYou mean everything to me.\n\nI’m really sorry.";
+const text = "I know you’re upset...\n\nAnd honestly, you’re right.\n\nI shouldn’t have to make you cry and hurt you.\n\nI hate that I made you feel this way.\n\nYou mean everything to me.\n\nI’m really sorry.";
 let i=0;
 
 function typeWriter(){
@@ -177,10 +194,13 @@ setTimeout(typeWriter,1000);
 
 /* Buttons */
 function angry(){
+  startMusic();
   document.getElementById("response").innerHTML =
   "I know you are… and you have every right to be.<br>I’ll wait for you ❤️";
 }
+
 function forgive(){
+  startMusic();
   document.getElementById("response").innerHTML =
   "Thank you… this means everything to me ❤️";
 }
