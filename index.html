@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+  color: #333;
+  text-align: center;
+}
+
+/* Sections */
+section {
+  padding: 60px 20px;
+}
+
+/* Typing */
+#typing {
+  font-size: 22px;
+  max-width: 700px;
+  margin: auto;
+  min-height: 120px;
+}
+
+/* Gallery Grid (LIKE YOUR REPO STYLE) */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  padding: 20px;
+}
+
+.gallery img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: 0.3s;
+}
+
+.gallery img:hover {
+  transform: scale(1.15);
+}
+
+/* Button */
+button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 20px;
+  background: #ff6f91;
+  color: white;
+  cursor: pointer;
+}
+
+/* Floating hearts */
+.heart {
+  position: fixed;
+  bottom: -10px;
+  font-size: 18px;
+  animation: floatUp linear forwards;
+}
+
+@keyframes floatUp {
+  to {
+    transform: translateY(-100vh);
+    opacity: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Intro -->
+<section>
+  <h1>Hey… ❤️</h1>
+  <p>Please don’t scroll fast…</p>
+</section>
+
+<!-- Typing -->
+<section>
+  <h1>I’m Sorry 😔</h1>
+  <div id="typing"></div>
+</section>
+
+<!-- Gallery -->
+<section>
+  <h1>JUST YOUUUUUUUUUUUUUU… ❤️</h1>
+  <div class="gallery" id="gallery"></div>
+</section>
+
+<!-- Ending -->
+<section>
+  <h1>Still upset?</h1>
+  <button onclick="angry()">Still Angry 😒</button>
+  <button onclick="forgive()">Maybe 🙂</button>
+  <p id="response"></p>
+</section>
+
+<!-- Music -->
+<audio autoplay loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+/* Typing */
+const text = "I know you’re upset...\n\nAnd honestly, you’re right.\n\nI shouldn't have make you cry.\n\nI have give you much time from my schedule ki tujhe kabhi naraz hona hi na pade aur.\n\nI hate that I made you feel this way.\n\nYou mean a lot to me.\n\nI’m really sorry.";
+let i = 0;
+
+function typeWriter() {
+  if (i < text.length) {
+    document.getElementById("typing").innerHTML += 
+      text.charAt(i) === "\n" ? "<br><br>" : text.charAt(i);
+    i++;
+    setTimeout(typeWriter, 40);
+  }
+}
+typeWriter();
+
+/* LOAD MULTIPLE IMAGES AUTOMATICALLY */
+const gallery = document.getElementById("gallery");
+
+// 👉 CHANGE NUMBER HERE
+const totalImages = 18;
+
+for (let i = 1; i <= totalImages; i++) {
+  const img = document.createElement("img");
+  img.src = `images/img${i}.jpg`;
+  gallery.appendChild(img);
+}
+
+/* Buttons */
+function angry() {
+  document.getElementById("response").innerHTML =
+    "I understand… I’ll wait ❤️";
+}
+function forgive() {
+  document.getElementById("response").innerHTML =
+    "Thank you… I won’t hurt you again ❤️";
+}
+
+/* Hearts */
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerHTML = "❤️";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}
+setInterval(createHeart, 300);
+</script>
+
+</body>
+</html>
